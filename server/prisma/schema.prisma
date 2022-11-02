@@ -38,7 +38,7 @@ model User {
   id        String   @id @default(cuid())
   name      String
   email     String   @unique
-  avatarURL String?
+  avatarUrl String?
   createdAt DateTime @default(now())
 
   participatingAt Participant[]
@@ -49,7 +49,7 @@ model Game {
   id   String   @id @default(cuid())
   date DateTime
 
-  fristTeamCountryCode  String
+  firstTeamCountryCode  String
   secondTeamCountryCode String
 
   guesses Guess[]
@@ -58,7 +58,7 @@ model Game {
 model Guess {
   id String @id @default(cuid())
 
-  fristTeamPoints  Int
+  firstTeamPoints  Int
   secondTeamPoints Int
   createdAt        DateTime @default(now())
   gameId           String
