@@ -1,17 +1,20 @@
-import { useEffect, useState } from 'react';
-import { VStack, Icon, useToast } from 'native-base';
+import { useCallback, useState } from 'react';
+import { VStack, Icon, useToast, FlatList } from 'native-base';
 import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Button } from '../components/Button';
 import { Header } from '../components/Header';
 import { Loading } from '../components/Loading';
-import { PoolCard } from '../components/PoolCard';
+import { PoolCard, PoolCardPros } from '../components/PoolCard';
+import { EmptyPoolList } from '../components/EmptyPoolList';
 
 import { api } from '../services/api';
 
 export function Pools() {
   const [isLoading, setIsLoading] = useState(true);
+  const [pools, setPools] = useState<PoolCardPros[]>([]);
 
   const { navigate } = useNavigation();
 
@@ -22,7 +25,7 @@ export function Pools() {
       setIsLoading(true);
 
       const response = await api.get('/pools');
-      console.log(response);
+      setPools(response.data.pools)
 
     } catch (error) {
       console.log(error);
@@ -33,13 +36,13 @@ export function Pools() {
         bgColor: 'red.500'
       });
     } finally{
-      setIsLoading(false)
+      setIsLoading(false);
     };
   };
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     fetchPools();
-  }, []);
+  }, []));
 
   return (
     <VStack flex={1} bgColor="gray.900">
@@ -53,7 +56,18 @@ export function Pools() {
         />
       </VStack>
 
-      <Loading />
+      {
+        isLoading ? <Loading /> :
+        <FlatList 
+          data={pools}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => <PoolCard data={item} />}
+          ListEmptyComponent={() => <EmptyPoolList />}
+          showsVerticalScrollIndicator={false}
+          px={5}
+          _contentContainerStyle={{ pb: 10 }}
+        />
+      }
     </VStack>
   );
 }

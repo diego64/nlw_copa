@@ -46,7 +46,7 @@ export function New() {
         bgColor: 'red.500'
       });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
