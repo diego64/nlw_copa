@@ -148,6 +148,7 @@ export async function poolRoutes(fastify: FastifyInstance) {
     return { pools }
   });
 
+  //Detaalhes de um Bolão
   fastify.get('/pools/:id', {
     onRequest: [authenticate],
   }, async (request) => {

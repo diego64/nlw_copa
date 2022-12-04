@@ -19,7 +19,7 @@ export interface PoolCardPros {
 }
 
 interface Props extends TouchableOpacityProps {
-  data: PoolPros;
+  data: PoolCardPros;
 }
 
 export function PoolCard({ data, ...rest }: Props) {
